@@ -10,7 +10,7 @@
     {
       "name": "changelog-writer",
       "source": "./",
-      "description": "Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not."
+      "description": "Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not. Tags the release with /changelog-writer:tag."
     }
   ]
 }

@@ -21,6 +21,11 @@ The skill writes the next release entry of a repo's CHANGELOG from what `develop
    user-visible effect per line.
 7. Saves the file without committing, pushing or tagging, and reports the range, commit count and lines to confirm.
 
+A second skill, `tag` (`/changelog-writer:tag [X.Y.Z]`), creates and pushes the release tag once the entry is
+committed. The name is the newest changelog version, using the existing tags' prefix, or exactly the version given. It
+stops and asks if the tag exists, the version is not higher than the latest tag, the changelog is uncommitted, or
+`HEAD` is unpushed or not on the production branch (gitflow's master setting, else `master` or `main`). It never moves or force-pushes a tag.
+
 ## Layout
 
 - `.claude-plugin/plugin.json`: plugin manifest (name, version, description, repository).
@@ -30,6 +35,8 @@ The skill writes the next release entry of a repo's CHANGELOG from what `develop
   specific about when to use the skill; `argument-hint` documents the arguments.
 - `skills/changelog-writer/references/default-template.md`: the style used only when a repo has no changelog yet.
   `SKILL.md` refers to it by relative path.
+- `skills/tag/SKILL.md`: the tagging skill. Plugin skills are namespaced `<plugin>:<skill>`, which is why its
+  directory name `tag` yields `/changelog-writer:tag`.
 
 ## Editing notes
 
