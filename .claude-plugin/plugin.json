@@ -1,0 +1,9 @@
+{
+  "name": "changelog-writer",
+  "version": "1.0.0",
+  "description": "Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not.",
+  "author": {
+    "name": "Leonardo Serra"
+  },
+  "repository": "https://github.com/leonardoserra/changelog-writer"
+}

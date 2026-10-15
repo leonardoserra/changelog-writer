@@ -1,0 +1,16 @@
+{
+  "name": "changelog-writer",
+  "owner": {
+    "name": "Leonardo Serra"
+  },
+  "metadata": {
+    "description": "Marketplace for the changelog-writer skill."
+  },
+  "plugins": [
+    {
+      "name": "changelog-writer",
+      "source": "./",
+      "description": "Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not."
+    }
+  ]
+}
