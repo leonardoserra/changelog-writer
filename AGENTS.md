@@ -8,14 +8,15 @@ A Claude Code plugin that ships one skill, `changelog-writer`. There is no appli
 suite: the product is the skill's Markdown instructions plus the plugin manifests.
 
 The skill writes the next release entry of a repo's CHANGELOG from what `develop` holds that `master` does not
-(git-flow). When invoked (`/changelog-writer [version X.Y.Z | X.Y.Z]`) it:
+(git-flow). When invoked (`/changelog-writer [version X.Y.Z | X.Y.Z] [from <commit>]`) it:
 
 1. Picks the version: the explicit one, or the latest released version with the patch bumped.
 2. Finds the changelog file (`CHANGELOG*`, `CHANGES*`, `HISTORY*`, `RELEASES*`) and checks it is a real one; if there
    is none and the user confirms it is the first, creates `CHANGELOG.md` from `references/default-template.md`.
 3. Reconciles the newest changelog heading with the newest release tag.
 4. Fetches, resolves the git-flow branch names, and reads every commit body, the merge commits, the diff and the code
-   in `origin/<master>..origin/<develop>`, backing each line with the code.
+   in `origin/<master>..origin/<develop>` (or from `<commit>` onwards when `from <commit>` is given), backing each
+   line with the code.
 5. Filters out noise (temporary CI commits, merges alone, AI docs, formatting refactors).
 6. Writes the entry copying the existing file's style exactly (heading, sections, indentation, width), one
    user-visible effect per line.
@@ -27,10 +28,10 @@ stops and asks if the tag exists, the version is not higher than the latest tag,
 `HEAD` is unpushed or not on the production branch (gitflow's master setting, else `master` or `main`). It never
 moves or force-pushes a tag.
 
-A third skill, `init` (`/changelog-writer:init [X.Y.Z]`), creates the first `CHANGELOG.md` when none exists, using
-the default template. With no release tags it writes one entry, `0.0.1` or the version given. With tags it writes one
-entry per tag from the history between consecutive tags, applying the main skill's inclusion and wording rules.
-Both `init` and the main skill always ask first whether to include changes that only matter to developers. It
+A third skill, `init` (`/changelog-writer:init [X.Y.Z] [from <commit>]`), creates the first `CHANGELOG.md` when none
+exists, using the default template. With no release tags it writes one entry, `0.0.1` or the version given. With tags
+it writes one entry per tag from the history between consecutive tags (only from `<commit>` onwards when given),
+applying the main skill's inclusion and wording rules. Both `init` and the main skill always ask first whether to include changes that only matter to developers. It
 never overwrites an existing changelog and does not commit.
 
 ## Layout

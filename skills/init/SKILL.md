@@ -1,7 +1,7 @@
 ---
 name: init
 description: Creates a repo's first CHANGELOG.md. With no release tags it writes a single entry, 0.0.1 or the version given; with existing tags it writes one entry per tag from the git history. Use it whenever the user types /changelog-writer:init, or asks to create, start or bootstrap a changelog for a repo that has none.
-argument-hint: "[X.Y.Z]"
+argument-hint: "[X.Y.Z] [from <commit>]"
 ---
 
 # init
@@ -12,6 +12,8 @@ Create `CHANGELOG.md` at the repository root for a repo that has no changelog ye
 
 - `/changelog-writer:init`: no version given. With no tags, the single entry is `0.0.1`.
 - `/changelog-writer:init 1.2.3`: with no tags, the single entry is `1.2.3`. With tags, see section 4.
+- `/changelog-writer:init from <commit>` (alone or after a version, e.g. `/changelog-writer:init 1.2.3 from a1b2c3d`):
+  build the changelog from `<commit>` onwards, ignoring the history before it. See section 4.
 - Always ask, before reading the history: "Include changes that only matter to developers (dependency upgrades,
   refactors, tooling, CI, tests)?" The answer applies to every entry, as in section 5 of
   `../changelog-writer/SKILL.md`.
@@ -36,6 +38,18 @@ Create `CHANGELOG.md` at the repository root for a repo that has no changelog ye
 
 Start from `../changelog-writer/references/default-template.md` (relative to this skill's directory): copy its file
 header and follow its conventions for headings, sections, bullets and width. Replace the example entry.
+
+### From a commit
+
+With `from <commit>`, first check it exists (`git rev-parse --verify <commit>^{commit}`) and is on the production
+branch (`git merge-base --is-ancestor <commit> HEAD`); if not, say so and ask for another commit. `<commit>` itself is
+included. Then:
+
+- No tags after it: the single entry covers `<commit>^..HEAD` (`HEAD` alone if `<commit>` is the root commit) and
+  describes what that history adds, rather than the whole project.
+- Tags after it: keep only tags that contain `<commit>` (`git tag --contains <commit>`); the others are skipped and
+  reported. The oldest kept tag's range is `<commit>^..<tag>` instead of `<tag>` alone, and its entry is written like
+  the other ranges, not as a list of capabilities.
 
 ### No tags
 
@@ -65,7 +79,8 @@ date from section 3.
 - Write `CHANGELOG.md`. Do not commit, push or tag.
 - Report to the user:
   - the entries written, with their version, date and number of commits read;
-  - any skipped tags, and how many commits after the newest tag were left out;
+  - any skipped tags, how many commits after the newest tag were left out, and the `from` commit when one was
+    given;
   - lines that could not be verified from the code.
 - If an entry has no tag yet (the no-tag case, or a version for commits after the newest tag), say that
   `/changelog-writer:tag` creates it once the changelog is committed and pushed.

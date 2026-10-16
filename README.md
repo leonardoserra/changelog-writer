@@ -15,11 +15,13 @@ Add this repository as a marketplace and install the plugin:
 
 ## Skills
 
-### `/changelog-writer [version X.Y.Z | X.Y.Z]`
+### `/changelog-writer [version X.Y.Z | X.Y.Z] [from <commit>]`
 
 Writes the entry for the release `develop` is about to ship.
 
 - Version: the one given, or the latest released version with the patch bumped (`4.0.8` becomes `4.0.9`).
+- Start: by default the entry covers what `develop` holds that `master` does not. With `from <commit>` (e.g.
+  `/changelog-writer 1.2.3 from a1b2c3d`) it covers `<commit>` and everything after it on `develop` instead.
 - Asks first whether to include changes that only matter to developers (dependency upgrades, refactors, tooling, CI,
   tests).
 - Finds the changelog (`CHANGELOG*`, `CHANGES*`, `HISTORY*`, `RELEASES*`) and checks its newest heading against the
@@ -31,12 +33,14 @@ Writes the entry for the release `develop` is about to ship.
 - Copies the existing file's heading, sections, indentation and line width exactly.
 - Saves the file without committing, pushing or tagging, and reports the range, commit count and lines to confirm.
 
-### `/changelog-writer:init [X.Y.Z]`
+### `/changelog-writer:init [X.Y.Z] [from <commit>]`
 
 Creates the first `CHANGELOG.md` for a repo that has none.
 
 - With no release tags: a single entry, `0.0.1` or the version given.
 - With tags: one entry per tag, built from the history between consecutive tags with the same rules as the main skill.
+- With `from <commit>` (e.g. `/changelog-writer:init from a1b2c3d`): the history before `<commit>` is ignored. Tags
+  that do not contain it are skipped, and the oldest remaining entry starts at `<commit>`.
 - Never overwrites an existing changelog and does not commit.
 
 ### `/changelog-writer:tag [X.Y.Z]`

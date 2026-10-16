@@ -1,7 +1,7 @@
 ---
 name: changelog-writer
 description: Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not. Reads every commit message, the diff and the code to say plainly what changed for users. Use it whenever the user types /changelog-writer, asks for a changelog or release-notes entry, wants "the changelog for the release", or is preparing a git-flow release branch, even without saying "changelog".
-argument-hint: "[version X.Y.Z | X.Y.Z]"
+argument-hint: "[version X.Y.Z | X.Y.Z] [from <commit>]"
 ---
 
 # changelog-writer
@@ -15,6 +15,8 @@ not an entry.
 - `/changelog-writer`: no version given. Bump the **patch** of the latest released version (`4.0.8` becomes `4.0.9`).
 - `/changelog-writer 1.2.3` or `/changelog-writer version 1.2.3`: use exactly `1.2.3`.
 - If the explicit version is not higher than the latest released one, say so and ask before writing.
+- `/changelog-writer from <commit>` (alone or after a version, e.g. `/changelog-writer 1.2.3 from a1b2c3d`): build
+  the entry from `<commit>` onwards instead of from where `develop` leaves `master`. See section 4.
 - Always ask, before reading the history: "Include changes that only matter to developers (dependency upgrades,
   refactors, tooling, CI, tests)?" The answer decides section 5.
 
@@ -42,6 +44,11 @@ not an entry.
    - If local `develop` differs from `origin/develop`, say so and ask which one to use.
    - The first commit of the release is the oldest one in that range. `git merge-base origin/<master> origin/<develop>`
      shows where it starts.
+   - With `from <commit>`, the range is `<commit>^..origin/<develop>` instead, so `<commit>` itself is included (use
+     `origin/<develop>` alone if `<commit>` is the root commit). First check it exists
+     (`git rev-parse --verify <commit>^{commit}`) and is on `develop`
+     (`git merge-base --is-ancestor <commit> origin/<develop>`); if not, say so and ask for another commit. If it is
+     older than the merge base, tell the user the range includes commits already on `master`.
 4. List the commits with their full bodies: `git log --no-merges --reverse --format='%h %s%n%b' <range>`.
    - The bodies hold the reasons, the before and after, and the ticket keys. Read every one.
    - Read the merge commits too (`git log --merges <range>`). They show which feature branches and tickets the release
@@ -100,6 +107,7 @@ Write each line so it explains the change on its own. Patterns that read well:
 - Insert the entry above the newest one. Keep the file header and every older entry byte-identical.
 - Do not commit, push or tag. The user copies the file into the release branch.
 - Report to the user:
-  - the version, the commit range (`<first sha>..<last sha>`) and the number of commits read;
+  - the version, the commit range (`<first sha>..<last sha>`) and the number of commits read, and the `from` commit
+    when one was given;
   - the lines that describe a visible change, so the user can confirm each one before release;
   - anything you left out on purpose, and anything that could not be verified from the code.
