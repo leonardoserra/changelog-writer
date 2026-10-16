@@ -35,6 +35,8 @@ never overwrites an existing changelog and does not commit.
 
 ## Layout
 
+- `README.md`: user-facing overview (install, the three skills and their arguments, release flow, layout). Update it
+  when a skill's behaviour or arguments change.
 - `.claude-plugin/plugin.json`: plugin manifest (name, version, description, repository).
 - `.claude-plugin/marketplace.json`: single-plugin marketplace pointing at `./`, so the repo can be added directly as
   a marketplace.
