@@ -24,7 +24,14 @@ The skill writes the next release entry of a repo's CHANGELOG from what `develop
 A second skill, `tag` (`/changelog-writer:tag [X.Y.Z]`), creates and pushes the release tag once the entry is
 committed. The name is the newest changelog version, using the existing tags' prefix, or exactly the version given. It
 stops and asks if the tag exists, the version is not higher than the latest tag, the changelog is uncommitted, or
-`HEAD` is unpushed or not on the production branch (gitflow's master setting, else `master` or `main`). It never moves or force-pushes a tag.
+`HEAD` is unpushed or not on the production branch (gitflow's master setting, else `master` or `main`). It never
+moves or force-pushes a tag.
+
+A third skill, `init` (`/changelog-writer:init [X.Y.Z]`), creates the first `CHANGELOG.md` when none exists, using
+the default template. With no release tags it writes one entry, `0.0.1` or the version given. With tags it writes one
+entry per tag from the history between consecutive tags, applying the main skill's inclusion and wording rules.
+Both `init` and the main skill always ask first whether to include changes that only matter to developers. It
+never overwrites an existing changelog and does not commit.
 
 ## Layout
 
@@ -37,6 +44,8 @@ stops and asks if the tag exists, the version is not higher than the latest tag,
   `SKILL.md` refers to it by relative path.
 - `skills/tag/SKILL.md`: the tagging skill. Plugin skills are namespaced `<plugin>:<skill>`, which is why its
   directory name `tag` yields `/changelog-writer:tag`.
+- `skills/init/SKILL.md`: the bootstrap skill. It reuses `changelog-writer`'s template and its sections 5 and 6 by
+  relative path (`../changelog-writer/...`), so renumbering those sections or moving the template breaks it.
 
 ## Editing notes
 

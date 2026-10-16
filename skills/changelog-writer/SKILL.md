@@ -15,6 +15,8 @@ not an entry.
 - `/changelog-writer`: no version given. Bump the **patch** of the latest released version (`4.0.8` becomes `4.0.9`).
 - `/changelog-writer 1.2.3` or `/changelog-writer version 1.2.3`: use exactly `1.2.3`.
 - If the explicit version is not higher than the latest released one, say so and ask before writing.
+- Always ask, before reading the history: "Include changes that only matter to developers (dependency upgrades,
+  refactors, tooling, CI, tests)?" The answer decides section 5.
 
 ## 2. Find the changelog file
 
@@ -60,6 +62,9 @@ Include everything a user, an API client or an operator would notice. Leave out:
 - Formatting-only refactors.
 - Mention dead code removal only when it removes something reachable by name: a route, an endpoint, a public method, a
   gem.
+
+If the user said yes to developer changes (section 1), also include what changed for developers: dependency
+upgrades, refactors, tooling, CI and tests. The exclusions above still apply.
 
 ## 6. Write the entry in the file's own style
 
