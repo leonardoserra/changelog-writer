@@ -2,6 +2,16 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.3.0 - 2026-10-16
+
+- Changed
+  - `/changelog-writer [version X.Y.Z | X.Y.Z] from <commit>` builds the entry from `<commit>` (included) onwards on
+    `develop`, instead of from where `develop` leaves `master`. It asks for another commit if `<commit>` does not
+    exist or is not on `develop`, and warns when the range includes commits already on `master`.
+  - `/changelog-writer:init [X.Y.Z] from <commit>` ignores the history before `<commit>`: tags that do not contain it
+    are skipped, and the oldest remaining entry starts at `<commit>`.
+  - New `README.md` describing how to install the plugin, its three skills and their arguments, and the release flow.
+
 ## 1.2.0 - 2026-10-16
 
 - Changed
