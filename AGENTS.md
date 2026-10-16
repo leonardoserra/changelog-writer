@@ -31,8 +31,8 @@ moves or force-pushes a tag.
 A third skill, `init` (`/changelog-writer:init [X.Y.Z] [from <commit>]`), creates the first `CHANGELOG.md` when none
 exists, using the default template. With no release tags it writes one entry, `0.0.1` or the version given. With tags
 it writes one entry per tag from the history between consecutive tags (only from `<commit>` onwards when given),
-applying the main skill's inclusion and wording rules. Both `init` and the main skill always ask first whether to include changes that only matter to developers. It
-never overwrites an existing changelog and does not commit.
+applying the main skill's inclusion and wording rules. Both `init` and the main skill always ask first whether to
+include changes that only matter to developers. It never overwrites an existing changelog and does not commit.
 
 ## Layout
 
