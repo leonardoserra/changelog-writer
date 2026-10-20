@@ -1,6 +1,6 @@
 {
   "name": "changelog-writer",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "Writes the next release entry of a repo's CHANGELOG from what develop holds that master does not. Bootstraps a first CHANGELOG.md from the tags with /changelog-writer:init, and tags the release with /changelog-writer:tag.",
   "author": {
     "name": "Leonardo Serra"

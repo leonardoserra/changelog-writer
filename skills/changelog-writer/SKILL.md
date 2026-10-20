@@ -65,7 +65,7 @@ Include everything a user, an API client or an operator would notice. Leave out:
 
 - Temporary CI commits (for example, adding a branch to a job's `only:` and removing it again).
 - Merge commits on their own.
-- Agent and AI documentation (`CLAUDE.md`, local notes).
+- Agent and AI configuration (`CLAUDE.md`, `AGENTS.md`, `.claude/` skills and commands, local notes).
 - Formatting-only refactors.
 - Mention dead code removal only when it removes something reachable by name: a route, an endpoint, a public method, a
   gem.
