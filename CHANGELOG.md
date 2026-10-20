@@ -2,6 +2,12 @@
 
 All notable changes to this project are documented in this file.
 
+## 1.3.1 - 2026-10-20
+
+- Changed
+  - `/changelog-writer` and `/changelog-writer:init` now leave out changes to `AGENTS.md` and to `.claude/` skills and
+    commands, like `CLAUDE.md`. Before, edits to agent configuration could show up as release lines.
+
 ## 1.3.0 - 2026-10-16
 
 - Changed
